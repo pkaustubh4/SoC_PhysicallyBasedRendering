@@ -1,8 +1,9 @@
 #pragma once
 
+#include "debug.h"
+#include <GL/glew.h>
 #include <iostream>
 #include <vector>
-#include "renderer.h"
 
 struct VertexBufferElement
 {
@@ -38,20 +39,20 @@ public:
 	template<typename T>
 	void Push(unsigned int count) {
 
-		std::runtime_error(GL_FALSE);
+		std::runtime_error(false);
 	}	
 	
 	template<>
 	void Push<float>(unsigned int count) {
 
-		m_elements.push_back({ GL_FLOAT, count, GL_FALSE });
+		m_elements.push_back({ GL_FLOAT, count, false });
 		m_stride += count * VertexBufferElement::GetSizeofType(GL_FLOAT);
 	}
 
 	template<>
 	void Push<unsigned int>(unsigned int count) {
 
-		m_elements.push_back({ GL_UNSIGNED_INT, count, GL_FALSE });
+		m_elements.push_back({ GL_UNSIGNED_INT, count, false });
 		m_stride += count * VertexBufferElement::GetSizeofType(GL_UNSIGNED_INT);
 	}
 
@@ -65,3 +66,6 @@ public:
 	inline const std::vector<VertexBufferElement> GetElements() const { return m_elements; }
 	inline unsigned int GetStride() const { return m_stride; }
 };
+
+// Forward declaration of Renderer class
+class Renderer;
