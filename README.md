@@ -10,7 +10,7 @@ Implemented the following:
    Index Buffers \
    Uniforms and Vertex Arrays \
    Projection Matrices \
-   OOP and 2D Camera
-   3D Views and Camera
-   Textures
+   OOP and 2D Camera \
+   3D Views and Camera \
+   Textures \
    Lighting and Diffusion
