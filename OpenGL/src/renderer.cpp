@@ -1,18 +1,71 @@
-#include "renderer.h"
+#pragma once
+
+#include "debug.h"
+#include <GL/glew.h>
 #include <iostream>
+#include <vector>
 
-void GLClearError() {
+struct VertexBufferElement
+{
+	unsigned int type;
+	unsigned int count;
+	unsigned char normalized;
 
-    while (glGetError() != GL_NO_ERROR);
-}
+	VertexBufferElement(unsigned int t, unsigned int c, bool n):count(c),type(t),normalized(n) {}
 
-bool GLLogCall(const char* function, const char* file, int line) {
+	static unsigned int GetSizeofType(unsigned int type) {
 
-    while (GLenum error = glGetError()) {
+		switch (type)
+		{
+			case GL_FLOAT:		   return 4;
+			case GL_UNSIGNED_INT:  return 4;
+			case GL_UNSIGNED_BYTE: return 1;
+		}
+		ASSERT(false);
+		return 0;
+	}
+};
 
-        std::cout << "[OpenGL Error] (" << error << "):" << function <<
-            " " << file << "\n" << "Line " << line << std::endl;
-        return false;
-    }
-    return true;
-}
+class VertexBufferLayout 
+{
+private:
+	std::vector<VertexBufferElement> m_elements;
+	unsigned int m_stride;
+
+public:
+	VertexBufferLayout()
+		: m_stride(0) {}
+
+	template<typename T>
+	void Push(unsigned int count) {
+
+		std::runtime_error(false);
+	}	
+	
+	template<>
+	void Push<float>(unsigned int count) {
+
+		m_elements.push_back({ GL_FLOAT, count, false });
+		m_stride += count * VertexBufferElement::GetSizeofType(GL_FLOAT);
+	}
+
+	template<>
+	void Push<unsigned int>(unsigned int count) {
+
+		m_elements.push_back({ GL_UNSIGNED_INT, count, false });
+		m_stride += count * VertexBufferElement::GetSizeofType(GL_UNSIGNED_INT);
+	}
+
+	template<>
+	void Push<unsigned char>(unsigned int count) {
+
+		m_elements.push_back({ GL_UNSIGNED_BYTE, count, GL_TRUE });
+		m_stride += count * VertexBufferElement::GetSizeofType(GL_UNSIGNED_BYTE);
+	}
+
+	inline const std::vector<VertexBufferElement> GetElements() const { return m_elements; }
+	inline unsigned int GetStride() const { return m_stride; }
+};
+
+// Forward declaration of Renderer class
+class Renderer;
