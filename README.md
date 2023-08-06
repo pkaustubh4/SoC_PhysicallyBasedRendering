@@ -1,6 +1,6 @@
 # SoC: Physically Based Rendering
 
-Implemented the following:
+Implemented the following to render a rotating glass cube with ambient diffusion under white light:
 
    Rendering Basics \
    Intro to/Setting up OpenGL \
