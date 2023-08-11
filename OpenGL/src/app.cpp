@@ -218,6 +218,7 @@ int main(void)
 
             // Update view matrix
             view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+            view = glm::translate(view, glm::vec3 (0, 0, -100));
 
             // Update model matrix
             model = glm::rotate(glm::mat4(1.0f), (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
